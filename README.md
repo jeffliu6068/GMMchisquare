@@ -53,7 +53,7 @@ log2transform: perform log2-transformation on the data
 
 filt: level of background expression log2 transformed (2^-0.829) to match with the parameter log2-transform = True 
 
-### Returns Output 
+### Output 
 
 input_dataf: return dataframe with filtered probesets 
 
@@ -79,7 +79,7 @@ calc_back: True to calculate background threshold
 
 calc_backpara: False to turn off since we are calculating for background threshold to draw difference between noise expression level and negative
 
-### Returns Output
+### Output
 
 means: Mean of identified distributions
 
@@ -112,7 +112,7 @@ meanf: mean of the background distribution
 
 stdf: standard deviation of background distribution 
 
-### Returns Output
+### Output
 
 info: mean, covariance, and threshold of identified distribution
 
@@ -158,7 +158,7 @@ orgi: Input dataframe with categorized data that is composed of 1 or 2s (1 = low
 
 primary: Gene of interest that will be used as the primary gene compared to all other genes (index) to find correlation
 
-### Return Output
+### Output
 
 Hits: 2x2 contingency table p value 
 
@@ -180,7 +180,7 @@ index: Pre-defined genes of interest used to compare with primary
 
 primary: Gene of interest that will be used as the primary gene compared to all other genes (index) to find correlation 
 
-### Return Output
+### Output
 
 ct: 2x2 contingency table with each component, p-value, r-value
 
