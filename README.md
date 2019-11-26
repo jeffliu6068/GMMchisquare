@@ -56,11 +56,13 @@ filt: level of background expression log2 transformed (2^-0.829) to match with t
 
 #### Returns Output 
 
+input_dataf: return dataframe with filtered probesets 
+
 ## GMM.GMM_modelingt
 
 GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protocol to decipher the underlying sub populations. For example:
 
-### *Use Case1: calculating background threshold*
+### *Use Case 1: calculating background threshold*
 
 ```
 means, std, filt = GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,
@@ -87,7 +89,7 @@ std: Standard deviation of identified distributions
 filt: Cutoff between the distributions
 
 
-### *Use case2: Subcategorizing the distribution a single gene*
+### *Use case 2: Subcategorizing the distribution a single gene*
 
 ```
 gene = 'TGFB1'
