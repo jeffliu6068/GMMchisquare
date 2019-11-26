@@ -43,7 +43,7 @@ There are several functions that is included in the package:
 GMM.probe_filter is used to filter probes or genes based on the background threshold. For example:
 
 ```
-input_dataf = probe_filter(input_data_cancer,log2transform=True,filt=-0.829)
+input_dataf = GMM.probe_filter(input_data_cancer,log2transform=True,filt=-0.829)
 ```
 
 #### Input
@@ -65,7 +65,7 @@ GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protoco
 ### *Use Case 1: calculating background threshold*
 
 ```
-means, std, filt = GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,
+means, std, filt = GMM.GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,
                       ,calc_back=True, calc_backpara= False)
 ```
 #### Input
@@ -94,7 +94,7 @@ filt: Cutoff between the distributions
 ```
 gene = 'TGFB1'
 
-info, classif, categories,chi = GMM_modelingt(gene,input_dataf,log2transform=True,calc_backpara=True
+info, classif, categories,chi = GMM.GMM_modelingt(gene,input_dataf,log2transform=True,calc_backpara=True
                                     ,filt=-0.83, meanf= -3.3, stdf = 1.95)
 ```
 #### Input
@@ -139,13 +139,162 @@ gene_name = input_dataf.index
 categorize = []
 
 for gene in tqdm(gene_name):
-    info, classif, categories, chi = GMM_modelingt(gene,input_dataf, log2transform=True,calc_backpara=True
+    info, classif, categories, chi = GMM.GMM_modelingt(gene,input_dataf, log2transform=True,calc_backpara=True
                                     ,filt=6.5924, meanf= 5.14, stdf = 1.01)
     categorize.append(categories)
     del classif, categories, chi #free up memory
 
     time.sleep(0.01)
 ```
-##GMM.find_hits
+## GMM.find_hits
 
-This function is used to 
+This function is used to perform 2x2 contingency table analysis with the categorized data returned from the GMM.GMMmodelingt output
+
+```
+hits, filtdata = GMM.find_hits(orgi,primary='MUC2')
+```
+#### Input
+
+orgi: Input dataframe with categorized data that is composed of 1 or 2s (1 = low; 2 = high)
+
+primary: Gene of interest that will be used as the primary gene compared to all other genes (index) to find correlation
+
+#### Return Output
+
+Hits: 2x2 contingency table p value 
+
+filtdata: 2x2 contingency table with p value filtered for <= 0.05
+
+## GMM.run_hits
+
+This function is used to output the full 2x2 contingency table from a pre-defined set of genes of interest
+
+```
+ct = GMM.run_hits(orgi,index=filtdata.index,primary='MUC2')
+```
+
+#### Input
+
+orgi: Input dataframe with categorized data that is composed of 1 or 2s (1 = low; 2 = high)
+
+index: Pre-defined genes of interest used to compare with primary
+
+primary: Gene of interest that will be used as the primary gene compared to all other genes (index) to find correlation 
+
+#### Return Output
+
+ct: 2x2 contingency table with each component, p-value, r-value
+
+## GMM.crosstab_table
+
+This function is used to visualize the full 2x2 contingency table from a pre-defined set of genes of interest
+
+```
+GMM.crosstab_table(orgi,index=filtdata.index,primary='MUC2')
+```
+#### Input
+
+*Same as above*
+
+## Working Example
+
+### Input data
+
+| | Sample 1 | Sample 2 |
+|------------ | ------------- | ------------- |
+| Gene 1 | 233 | 322 |
+| Gene 2 | 1022 | 333 |
+| Gene 3 | 2003 | 12 |
+
+Input the data in a *.csv* into python with the following:
+
+```
+input_data = pd.read_csv(
+    r'C:\Users\xxx\xxx.csv',
+    index_col=[1],
+    header=0,
+    na_values='---')
+
+```
+
+### Measure the Background Threshold
+
+We would want to understand whether there is a subpopulation of signals that is under the background (noise) threshold
+
+```
+means, std, filt = GMM.GMM_modelingt('Microarray Expression Data' ,input_data,log2transform=True,
+                      ,calc_back=True, calc_backpara= False)
+```
+
+Now we have our mean and standard deviation of the background distribution, and the threshold seperating the two
+
+### Remove Genes Below Background Threshold
+
+```
+input_dataf = GMM.probe_filter(input_data,log2transform=True,filt=6.5924)
+```
+
+Remember if we are log2-transforming our data here, we have to use a log2-transformed background threshold value 
+
+### Subcategorize Each Gene with *GMM.GMMchisquare*
+
+```
+gene_name = input_dataf.index
+categorize = []
+
+for gene in tqdm(gene_name):
+    info, classif, categories, chi = GMM.GMM_modelingt(gene,input_dataf, log2transform=True,calc_backpara=True
+                                    ,filt=6.5924, meanf= 5.14, stdf = 1.01)
+    categorize.append(categories)
+    del classif, categories, chi #free up memory
+
+    time.sleep(0.01)
+```
+
+This will run through every gene and categorize them using the GMMchisquare protocol
+
+### Saving The Output Data
+
+```
+#Create dataframe for output data
+orgi = pd.DataFrame(categorize[0],index=input_dataf.columns).T
+
+for x in tqdm(categorize[1:]):
+    orgi = orgi.append(pd.DataFrame(x,index=input_dataf.columns).T)
+    
+    time.sleep(0.01)
+
+#Add index for dataframe 
+orgi.index = input_dataf.index
+
+#save output at a location of choice
+orgi.to_csv(r'C:/Users/xxxx/Documents/xxxx.csv')
+```
+
+### Analyze Categorized Data Using 2x2 Contingency Table
+
+```
+#Let's run through and filter out genes that is signficantly correlated with MUC2, a mucin marker
+hits, filtdata = find_hits(orgi,primary='MUC2')
+
+#Output contingency table using filtered index
+ct = run_hits(orgi,filtdata.index,primary='MUC2')
+
+#save output
+ct.to_csv(r"C:\Users\xxxx\Documents\xxxxx.csv")
+```
+
+## Authors
+
+* **Ta-Chun (Jeff) Liu** - *Initial work* - [jeffliu6068](https://github.com/jeffliu6068)
+* **Peter Kalugin** - *Initial work*
+* **Sir Walter Fred Bodmer FRS FRSE** *Initial work*
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone whose code was used
+* Inspiration: Thank you for all that has contributed ideas and expertise to make this possible. Let's advance science together. 
