@@ -235,7 +235,7 @@ input_dataf = GMM.probe_filter(input_data,log2transform=True,filt=6.5924)
 
 Remember if we are log2-transforming our data here, we have to use a log2-transformed background threshold value 
 
-### Subcategorize Each Gene with *GMM.GMMchisquare*
+### Subcategorize Each Gene with *GMM.GMM_modelingt*
 
 ```
 gene_name = input_dataf.index
