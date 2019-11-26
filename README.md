@@ -40,13 +40,13 @@ There are several functions that is included in the package:
 
 ### GMM.probe_filter 
 
-**GMM.probe_filter is used to filter probes or genes based on the background threshold. It can be used this way:**
+GMM.probe_filter is used to filter probes or genes based on the background threshold. For example:
 
 ```
 input_dataf = probe_filter(input_data_cancer,log2transform=True,filt=-0.829)
 ```
 
-input_dataf: returns the filtered data
+#### Input
 
 input_data_cancer: input data with genes (row) x samples (columns)
 
@@ -54,20 +54,43 @@ log2transform: perform log2-transformation on the data
 
 filt: level of background expression log2 transformed (2^-0.829) to match with the parameter log2-transform = True 
 
+#### Returns Output 
 
+input_dataf: returns the filtered data
 
 
 ### GMM.GMM_modelingt
 
-**GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protocol to decipher the underlying sub populations. It can be used this way:**
+GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protocol to decipher the underlying sub populations. For example:
 
-*Use Case1: calculating background threshold*
+### *Use Case1: calculating background threshold*
 
 ```
-means, covars, filt = GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,verbosity = True,Single_tail_validation=False,calc_back=True, calc_backpara= False)
+means, std, filt = GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,
+                      ,calc_back=True, calc_backpara= False)
 ```
+#### Input
 
-*Use case2: looking for a subcategorizing the distribution a single gene*
+'TCGA Colorectal Cancer': ID in this case will be automatically used as the title for your output graphs
+
+input_data_cancer: input data with genes (row) x samples (columns)
+             
+log2transform: perform log2-transformation on the data
+
+calc_back: True to calculate background threshold
+
+calc_backpara: False to turn off since we are calculating for background threshold to draw difference between noise expression level and negative
+
+#### Returns Output
+
+means: Mean of identified distributions
+
+std: Standard deviation of identified distributions
+
+filt: Cutoff between the distributions
+
+
+### *Use case2: Subcategorizing the distribution a single gene*
 
 ```
 gene = 'TGFB1'
@@ -75,6 +98,7 @@ gene = 'TGFB1'
 info, classif, categories,chi = GMM_modelingt(gene,input_dataf,log2transform=True,calc_backpara=True
                                     ,filt=-0.83, meanf= -3.3, stdf = 1.95)
 ```
+#### Input
 
 gene: gene name you're interested looking at
 
@@ -90,5 +114,20 @@ meanf: mean of the background distribution
 
 stdf: standard deviation of background distribution 
 
+#### Returns Output
 
-*Use case2: 
+info: mean, covariance, and threshold of identified distribution
+
+classif: classification annotation 
+
+        Classification annotation:
+        1: Unimodal distribution
+        2: Bimodal distribution
+        21: Unimodal distribution + tail
+        3: Bimodal distribution + tail
+        20: Biomdal distribution with chi-square fit protocol failed to fit 
+        
+categories: catogries of each sample after GMMchisquare
+
+chi: lowest chi-square goodness of fit value during fitting 
+
