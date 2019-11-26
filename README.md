@@ -38,7 +38,7 @@ import GMMchisquare as GMM
 There are several functions that is included in the package: 
 
 
-### GMM.probe_filter 
+## GMM.probe_filter 
 
 GMM.probe_filter is used to filter probes or genes based on the background threshold. For example:
 
@@ -59,7 +59,7 @@ filt: level of background expression log2 transformed (2^-0.829) to match with t
 input_dataf: returns the filtered data
 
 
-### GMM.GMM_modelingt
+## GMM.GMM_modelingt
 
 GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protocol to decipher the underlying sub populations. For example:
 
