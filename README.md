@@ -56,9 +56,6 @@ filt: level of background expression log2 transformed (2^-0.829) to match with t
 
 #### Returns Output 
 
-input_dataf: returns the filtered data
-
-
 ## GMM.GMM_modelingt
 
 GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protocol to decipher the underlying sub populations. For example:
@@ -131,7 +128,7 @@ categories: categories of each sample after GMMchisquare
 
 chi: lowest chi-square goodness of fit value during fitting 
 
-### *Use Case 3: Subcategorizing all genes or probes within dataset
+### *Use Case 3: Subcategorizing all genes or probes within dataset*
 
 Below is an example of how we can use this algorithm on a large scale analysis on all genes or probes:
 
@@ -147,3 +144,6 @@ for gene in tqdm(gene_name):
 
     time.sleep(0.01)
 ```
+##GMM.find_hits
+
+This function is used to 
