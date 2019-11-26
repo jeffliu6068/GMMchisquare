@@ -4,6 +4,8 @@ This is a package for Gaussian Mixture Modeling (GMM) using the chi-square proto
 
 Clear a-priori knowledge of expected distinct sub populations due to underlying mechanism is ideal for this method. The original use case is for gene expression data where the observed pattern of two sub populations due to mutated and normal population and their respective expression pattern clustering in distinct distributions gave rise to this protocol. Let's take a look at how we better use this package for gene expression analysis. 
 
+GMMchisquare offers a systematic approach for bimodal expression changes and their associations, predicts the number normal components, returns the mean and variance sub-distributions. Moreover, the advantage of transforming continuous data into categorized data is the ability to decipher the relationship of genes to phenotypes and post-analyze with contingency table analysis
+
 This is a python package. I will be detailing a step-by-step for those who have never used python:
 
 ## Getting Started 
@@ -33,10 +35,7 @@ Once installed, import the package by:
 import GMMchisquare as GMM
 ```
 
-## Available Tools in the GMMchisquare Package
-
-There are several functions that is included in the package: 
-
+# Available Tools in the GMMchisquare Package
 
 ## GMM.probe_filter 
 
@@ -46,7 +45,7 @@ GMM.probe_filter is used to filter probes or genes based on the background thres
 input_dataf = GMM.probe_filter(input_data_cancer,log2transform=True,filt=-0.829)
 ```
 
-#### Input
+### Input
 
 input_data_cancer: input data with genes (row) x samples (columns)
 
@@ -54,7 +53,7 @@ log2transform: perform log2-transformation on the data
 
 filt: level of background expression log2 transformed (2^-0.829) to match with the parameter log2-transform = True 
 
-#### Returns Output 
+### Returns Output 
 
 input_dataf: return dataframe with filtered probesets 
 
@@ -68,7 +67,7 @@ GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protoco
 means, std, filt = GMM.GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,
                       ,calc_back=True, calc_backpara= False)
 ```
-#### Input
+### Input
 
 'TCGA Colorectal Cancer': ID in this case will be automatically used as the title for your output graphs
 
@@ -80,7 +79,7 @@ calc_back: True to calculate background threshold
 
 calc_backpara: False to turn off since we are calculating for background threshold to draw difference between noise expression level and negative
 
-#### Returns Output
+### Returns Output
 
 means: Mean of identified distributions
 
@@ -97,7 +96,7 @@ gene = 'TGFB1'
 info, classif, categories,chi = GMM.GMM_modelingt(gene,input_dataf,log2transform=True,calc_backpara=True
                                     ,filt=-0.83, meanf= -3.3, stdf = 1.95)
 ```
-#### Input
+### Input
 
 gene: gene name you're interested looking at
 
@@ -113,7 +112,7 @@ meanf: mean of the background distribution
 
 stdf: standard deviation of background distribution 
 
-#### Returns Output
+### Returns Output
 
 info: mean, covariance, and threshold of identified distribution
 
@@ -153,13 +152,13 @@ This function is used to perform 2x2 contingency table analysis with the categor
 ```
 hits, filtdata = GMM.find_hits(orgi,primary='MUC2')
 ```
-#### Input
+### Input
 
 orgi: Input dataframe with categorized data that is composed of 1 or 2s (1 = low; 2 = high)
 
 primary: Gene of interest that will be used as the primary gene compared to all other genes (index) to find correlation
 
-#### Return Output
+### Return Output
 
 Hits: 2x2 contingency table p value 
 
@@ -173,7 +172,7 @@ This function is used to output the full 2x2 contingency table from a pre-define
 ct = GMM.run_hits(orgi,index=filtdata.index,primary='MUC2')
 ```
 
-#### Input
+### Input
 
 orgi: Input dataframe with categorized data that is composed of 1 or 2s (1 = low; 2 = high)
 
@@ -181,7 +180,7 @@ index: Pre-defined genes of interest used to compare with primary
 
 primary: Gene of interest that will be used as the primary gene compared to all other genes (index) to find correlation 
 
-#### Return Output
+### Return Output
 
 ct: 2x2 contingency table with each component, p-value, r-value
 
@@ -192,11 +191,11 @@ This function is used to visualize the full 2x2 contingency table from a pre-def
 ```
 GMM.crosstab_table(orgi,index=filtdata.index,primary='MUC2')
 ```
-#### Input
+### Input
 
 *Same as above*
 
-## Working Example
+# Working Example
 
 ### Input data
 
