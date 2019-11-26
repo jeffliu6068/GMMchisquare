@@ -6,32 +6,45 @@ Clear a-priori knowledge of expected distinct sub populations due to underlying 
 
 This is a python package. I will be detailing a step-by-step for those who have never used python:
 
+## Getting Started 
+
 Download Anaconda at https://www.anaconda.com/distribution/
 
 After downloading, open terminal (Mac) or cmd (Windows) by searching for them respectively depending on your operating system. Open Jupyter Notebook either by entering 'jupyter notebook' in the terminal/cmd or opening it using the anaconda application downloaded. This will open a visual shell script using your default browser. 
 
 Create a new script that can be edited by going to your desired folder --> new --> python 3 notebook located on the top right corner
 
+### Download Package
+
 Download this package by:
-
-***!pip install git+https://github.com/jeffliu6068/GMMchisquare.git***
-
+```
+!pip install git+https://github.com/jeffliu6068/GMMchisquare.git
+```
 or 
+```
+!pip install GMMchisquare
+```
 
-***!pip install GMMchisquare***
+### Import
 
 Once installed, import the package by: 
 
-***import GMMchisquare as GMM***
+```
+import GMMchisquare as GMM
+```
+
+## Available Tools in the GMMchisquare Package
 
 There are several functions that is included in the package: 
 
 
-***GMM.probe_filter***
+### GMM.probe_filter 
 
 **GMM.probe_filter is used to filter probes or genes based on the background threshold. It can be used this way:**
 
-***input_dataf = probe_filter(input_data_cancer,log2transform=True,filt=-0.829)***
+```
+input_dataf = probe_filter(input_data_cancer,log2transform=True,filt=-0.829)
+```
 
 input_dataf: returns the filtered data
 
@@ -44,22 +57,24 @@ filt: level of background expression log2 transformed (2^-0.829) to match with t
 
 
 
-***GMM.GMM_modelingt***
+### GMM.GMM_modelingt
 
 **GMM.GMM_modelingt is the main function which uses GMM and chi-square fit protocol to decipher the underlying sub populations. It can be used this way:**
 
 *Use Case1: calculating background threshold*
 
-***means, covars, filt = GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,verbosity = True,Single_tail_validation=False,calc_back=True, calc_backpara= False)***
-
-
+```
+means, covars, filt = GMM_modelingt('TCGA Colorectal Cancer' ,input_data_cancer,log2transform=True,verbosity = True,Single_tail_validation=False,calc_back=True, calc_backpara= False)
+```
 
 *Use case2: looking for a subcategorizing the distribution a single gene*
 
-***gene = 'TGFB1'***
+```
+gene = 'TGFB1'
 
-***info, classif, categories,chi = GMM_modelingt(gene,input_dataf,log2transform=True,calc_backpara=True
-                                    ,filt=-0.83, meanf= -3.3, stdf = 1.95)***
+info, classif, categories,chi = GMM_modelingt(gene,input_dataf,log2transform=True,calc_backpara=True
+                                    ,filt=-0.83, meanf= -3.3, stdf = 1.95)
+```
 
 gene: gene name you're interested looking at
 
