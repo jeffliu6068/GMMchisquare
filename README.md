@@ -1,6 +1,6 @@
 # GMMchisquare
 
-This is a package for Gaussian Mixture Modeling (GMM) using the chi-square protocol to subcategorize gene expression data. The method is based on understanding mixtures of Guassian distribution and non-normally distributed tails. This makes creates a wide application for this protocol for any distribution-based pattern recognition for subcategorizing data. 
+This is a package for Gaussian Mixture Modeling (GMM) using the chi-square protocol to subcategorize gene expression data. The method is based on understanding mixtures of Guassian distribution and non-normally distributed tails. This creates a wide application for this protocol for any distribution-based pattern recognition for subcategorizing data. 
 
 Clear a-priori knowledge of expected distinct sub populations due to underlying mechanism is ideal for this method. The original use case is for gene expression data where the observed pattern of two sub populations due to mutated and normal population and their respective expression pattern clustering in distinct distributions gave rise to this protocol. Let's take a look at how we better use this package for gene expression analysis. 
 
