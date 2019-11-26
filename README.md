@@ -127,7 +127,23 @@ classif: classification annotation
         3: Bimodal distribution + tail
         20: Biomdal distribution with chi-square fit protocol failed to fit 
         
-categories: catogries of each sample after GMMchisquare
+categories: categories of each sample after GMMchisquare
 
 chi: lowest chi-square goodness of fit value during fitting 
 
+### *Use Case 3: Subcategorizing all genes or probes within dataset
+
+Below is an example of how we can use this algorithm on a large scale analysis on all genes or probes:
+
+```
+gene_name = input_dataf.index
+categorize = []
+
+for gene in tqdm(gene_name):
+    info, classif, categories, chi = GMM_modelingt(gene,input_dataf, log2transform=True,calc_backpara=True
+                                    ,filt=6.5924, meanf= 5.14, stdf = 1.01)
+    categorize.append(categories)
+    del classif, categories, chi #free up memory
+
+    time.sleep(0.01)
+```
