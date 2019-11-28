@@ -1,10 +1,10 @@
 # GMMchisquare
 
-This is a package for Gaussian Mixture Modeling (GMM) using the chi-square protocol to subcategorize gene expression data. The method is based on understanding mixtures of Guassian distribution and non-normally distributed tails. This creates a wide application for this protocol for any distribution-based pattern recognition for subcategorizing data. 
+This is a package for Gaussian Mixture Modeling (GMM) using the chi-square protocol to subcategorize gene expression data. The method is based on understanding mixtures of Guassian distribution and non-normally distributed tails to identify bimodal distributions. This creates a wide application for this protocol for any distribution-based pattern recognition for subcategorizing data. 
 
-Clear a-priori knowledge of expected distinct sub populations due to underlying mechanism is ideal for this method. The original use case is for gene expression data where the observed pattern of two sub populations due to mutated and normal population and their respective expression pattern clustering in distinct distributions gave rise to this protocol. Let's take a look at how we better use this package for gene expression analysis. 
+Clear a-priori knowledge of distinct sub populations due to underlying mechanism (mutation, methylation..etc) is ideal for this method. The original use case is meant for gene expression data where the observed pattern of a bimodal distribution is due to mutated and normal population and their respective expression pattern clustering in distinct distributions. 
 
-GMMchisquare offers a systematic approach for bimodal expression changes and their associations, predicts the number normal components, returns the mean and variance sub-distributions. Moreover, the advantage of transforming continuous data into categorized data is the ability to decipher the relationship of genes to phenotypes and post-analyze with contingency table analysis
+GMMchisquare offers a systematic approach for bimodal expression changes and their associations, predicts the number normal components, returns the mean and variance sub-distributions. Moreover, the advantage of transforming continuous data into categorized data is the ability to decipher and correlate genes to phenotypes and post-analyze with contingency table analysis. Let's take a look at how we better use this package for gene expression analysis. 
 
 This is a python package. I will be detailing a step-by-step for those who have never used python:
 
