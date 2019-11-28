@@ -30,10 +30,10 @@ class GMMchisquare():
     def dynamic_binning(observed,binedges,threshold=5,final=True):
         """ This function is used to dynamically add samples to each bin to ensure maximize and ensure each bin has at least >=5 samples
 
-        :param observed: This is the input observed number of bins
-        :param binedges: This is the input bin edges for each bin
-        :param threshold: This is the number of samples expected for each bin
-        :param final: This is used to initialize the function
+        :observed: This is the input observed number of bins
+        :binedges: This is the input bin edges for each bin
+        :threshold: This is the number of samples expected for each bin
+        :final: This is used to initialize the function
 
         """    
 
@@ -93,12 +93,12 @@ class GMMchisquare():
         can also define the variance filter to exclude probes that has most expression level below the background threshold with
         a few escaping expression level that are slightly above the threshold.
 
-        :param datainputnorm: Input dataframe with genes (row) x samples (columns)
-        :param log2transform: Default set to False. This is used to indicate whether to log2-transform input data for filtering 
-        :param filt: Default set to 0. This is the input level of background threshold
-        :param threshold_filter: Default set to 0.01. This is the percentage of the total number of samples considered for testing 
+        :datainputnorm: Input dataframe with genes (row) x samples (columns)
+        :log2transform: Default set to False. This is used to indicate whether to log2-transform input data for filtering 
+        :filt: Default set to 0. This is the input level of background threshold
+        :threshold_filter: Default set to 0.01. This is the percentage of the total number of samples considered for testing 
             the number of 'escaped sample' with expression level slightly higher than bakcgroudn threshold
-        :param variance_filter: Default set to 0.0125. This is the quantile of the overall variance that will be used as the variance
+        :variance_filter: Default set to 0.0125. This is the quantile of the overall variance that will be used as the variance
             for filtering 'escaped sample'
 
         Returns the normal data with probes filtered out 
@@ -171,24 +171,24 @@ class GMMchisquare():
                       find_target=False, cell_lines=[]):
         """ This function is the Gaussian Mixture Modeling using the Chi-squared Fit protocol to subcategorize data distribution
 
-        :param ID: Probe or gene name
-        :param input_datanormal: Input dataframe with genes (row) x samples (columns)
-        :param log2transform: Default set to True. This is used to indicate whether to log2-transform is required for input data
-        :param dynamic_binning_s: Default set to True. This calls the dynamic binning function to ensure each bin contain >= 5 samples
-        :param tune_factor: Default set to 0.99. This is multiplied to each successive chi-square value to ensure the next is lower than the previous
-        :param verbosity: Default set to False. True prints out function output of the chi-squared fit protocol
-        :param graphs: Default set to True. This gives user control of whether they need to output the resulting graphs 
-        :param farinto: Default set to 0.1. This parameter is used to allow the chi-square fit protocol to take off datapoints a little beyond the 
+        :ID: Probe or gene name
+        :input_datanormal: Input dataframe with genes (row) x samples (columns)
+        :log2transform: Default set to True. This is used to indicate whether to log2-transform is required for input data
+        :dynamic_binning_s: Default set to True. This calls the dynamic binning function to ensure each bin contain >= 5 samples
+        :tune_factor: Default set to 0.99. This is multiplied to each successive chi-square value to ensure the next is lower than the previous
+        :verbosity: Default set to False. True prints out function output of the chi-squared fit protocol
+        :graphs: Default set to True. This gives user control of whether they need to output the resulting graphs 
+        :farinto: Default set to 0.1. This parameter is used to allow the chi-square fit protocol to take off datapoints a little beyond the 
             tail to make sure it takes all possibilities into acount
-        :param calc_back: Default set to False. True means ignore everything and calculate background threshold
-        :param calc_backpara: Default set to False. True means taking background threshold filt, meanf, stdf into account
-        :param meanf: Default set to 0. This is the input mean of the background distribution
-        :param filt: Default set to 0. This is the input level of background threshold
-        :param stdf: Default set to 0. This is the standard deviation of the background distribution
-        :param chisquaremethod: Default set to True. False turns of the chi-squared fit protocol
-        :param Single_tail_validation: Default set to True. False turns identifying tail problem off
-        :param find_target: Default set to False. Users can input sample names desired to be graphed by making this parameter True
-        :param cell_lines: Default set to []. Users input sample names if find_target is True
+        :calc_back: Default set to False. True means ignore everything and calculate background threshold
+        :calc_backpara: Default set to False. True means taking background threshold filt, meanf, stdf into account
+        :meanf: Default set to 0. This is the input mean of the background distribution
+        :filt: Default set to 0. This is the input level of background threshold
+        :stdf: Default set to 0. This is the standard deviation of the background distribution
+        :chisquaremethod: Default set to True. False turns of the chi-squared fit protocol
+        :Single_tail_validation: Default set to True. False turns identifying tail problem off
+        :find_target: Default set to False. Users can input sample names desired to be graphed by making this parameter True
+        :cell_lines: Default set to []. Users input sample names if find_target is True
 
         If calc_back = True: Returns means, np.sqart(covars), threshold
         If calc_back = False: Returns means, covariance, threshold, classification, classified subgroups of each sample, chi-square value
@@ -2722,110 +2722,110 @@ class GMMchisquare():
             plt.show()
     
     
-#run all hits against one
-def find_hits(ip,primary):
-    """ This function is used to take in pre-computed subcategorized data and calculate the chi-square contingency table 
-    of a single gene or probe with all other genes or probes
-    
-    :param ip: Input subcategorized data with 1 or 2s
-    :param primary: The probe or gene used to calculate chi-square contingency table with all other genes
-    
-    Returns p-value of all matches, and p-value <= 0.05 for all matches
-    
-    """
-    p_val = []
-    odds_ratio = []
-    ipa = ip.copy().T
-    ipa.replace(3,2,inplace=True) #replace string with integer
-    ipa = ipa.loc[:, (ipa != 2).any(axis=0)] #after substituting some are then all 2s
+    #run all hits against one
+    def find_hits(ip,primary):
+        """ This function is used to take in pre-computed subcategorized data and calculate the chi-square contingency table 
+        of a single gene or probe with all other genes or probes
 
-    for x in tqdm(ipa.columns): #DONT DO ANYTHING WITH LOCALIZATION
-        
-        ipan = ipa[ipa[x] != 0] #take out uncertain = 0
+        :ip: Input subcategorized data with 1 or 2s
+        :primary: The probe or gene used to calculate chi-square contingency table with all other genes
+
+        Returns p-value of all matches, and p-value <= 0.05 for all matches
+
+        """
+        p_val = []
+        odds_ratio = []
+        ipa = ip.copy().T
+        ipa.replace(3,2,inplace=True) #replace string with integer
+        ipa = ipa.loc[:, (ipa != 2).any(axis=0)] #after substituting some are then all 2s
+
+        for x in tqdm(ipa.columns): #DONT DO ANYTHING WITH LOCALIZATION
+
+            ipan = ipa[ipa[x] != 0] #take out uncertain = 0
+
+            #determine groups 
+            d = {}
+            for z in ipan[primary].unique():
+                for y in np.sort(ipan[x].unique()):
+                    d['n%s%s'%(z,y)]= len(ipan[(ipan[primary] == z) & (ipan[x] == y)])
+
+            values, keys = list(d.values()),list(d.keys())
+
+            o, p = stats.fisher_exact([[values[0],values[1]],[values[2],values[3]]])
+            p_val.append(p)
+            odds_ratio.append(o)
+
+            del o, p #free memory
+
+        new = pd.DataFrame({'P-value': p_val},index=ipa.columns).sort_values('P-value',ascending=True)
+
+        filtnew = new[(new<0.05)['P-value']]
+        return new, filtnew
+
+    #find all hits with pvalue >0.05
+    def run_hits(ip, index, primary):
+        """ This function is used to take in pre-computed subcategorized data, pre chosen index, and calculate the chi-square contingency table 
+        of a single gene or probe with all other genes or probes
+
+        :ip: Input subcategorized data with 1 or 2s
+        :index: Pre chosen genes or probes to look at association with the primary
+        :primary: The probe or gene used to calculate chi-square contingency table with all other genes
+
+        Returns contingency table, p value, r correlation
+
+        """
+
+        index = index.drop(primary)
+
+        ipa = ip.copy().T
+
+        ct = []
+        for x in tqdm(index): #DONT DO ANYTHING WITH LOCALIZATION
+
+            ipan = ipa[ipa[x] != 0] #take out uncertain = 0
+
+            #determine groups 
+            d = {}
+            for z in ipan[primary].unique():
+                for y in np.sort(ipan[x].unique()):
+                    d['n%s%s'%(z,y)]= len(ipan[(ipan[primary] == z) & (ipan[x] == y)])
+
+            values, keys = list(d.values()),list(d.keys())
+
+            o, p = stats.fisher_exact([[values[0],values[1]],[values[2],values[3]]])
+
+            pe, pp = stats.pearsonr(ipan[primary],ipan[x])
+            ct.append([values[0],values[1],values[2],values[3],p,pe])
+            print(pd.crosstab(ipan[primary],ipan[x]))
+            print('P-value: %s'%p+'\n')
+            print('R-value: %s'%pe+'\n')
+
+            del o,p #free memory
+        return ct
+    #look at one gene
+    def crosstab_table(ip,index,primary):
+        """ This function is used to take in pre-computed subcategorized data and calculate the chi-square contingency table 
+        of a single gene or probe with a set of pre chosen genes
+
+        :ip: Input subcategorized data with 1 or 2s
+        :index: Pre chosen genes or probes to look at association with the primary
+        :primary: The probe or gene used to calculate chi-square contingency table with all other genes
+
+        """
+
+        ipa = ip.copy().T
+
 
         #determine groups 
         d = {}
-        for z in ipan[primary].unique():
-            for y in np.sort(ipan[x].unique()):
-                d['n%s%s'%(z,y)]= len(ipan[(ipan[primary] == z) & (ipan[x] == y)])
+        for z in ipa[primary].unique():
+            for y in np.sort(ipa[index].unique()):
+                d['n%s%s'%(z,y)]= ipa[(ipa[primary] == z) & (ipa[index] == y)].index
 
         values, keys = list(d.values()),list(d.keys())
-
-        o, p = stats.fisher_exact([[values[0],values[1]],[values[2],values[3]]])
-        p_val.append(p)
-        odds_ratio.append(o)
-
-        del o, p #free memory
-    
-    new = pd.DataFrame({'P-value': p_val},index=ipa.columns).sort_values('P-value',ascending=True)
-
-    filtnew = new[(new<0.05)['P-value']]
-    return new, filtnew
-
-#find all hits with pvalue >0.05
-def run_hits(ip, index, primary):
-    """ This function is used to take in pre-computed subcategorized data, pre chosen index, and calculate the chi-square contingency table 
-    of a single gene or probe with all other genes or probes
-    
-    :param ip: Input subcategorized data with 1 or 2s
-    :param index: Pre chosen genes or probes to look at association with the primary
-    :param primary: The probe or gene used to calculate chi-square contingency table with all other genes
-    
-    Returns contingency table, p value, r correlation
-    
-    """
-
-    index = index.drop(primary)
-    
-    ipa = ip.copy().T
-    
-    ct = []
-    for x in tqdm(index): #DONT DO ANYTHING WITH LOCALIZATION
-        
-        ipan = ipa[ipa[x] != 0] #take out uncertain = 0
-
-        #determine groups 
-        d = {}
-        for z in ipan[primary].unique():
-            for y in np.sort(ipan[x].unique()):
-                d['n%s%s'%(z,y)]= len(ipan[(ipan[primary] == z) & (ipan[x] == y)])
-
-        values, keys = list(d.values()),list(d.keys())
-        
-        o, p = stats.fisher_exact([[values[0],values[1]],[values[2],values[3]]])
-
-        pe, pp = stats.pearsonr(ipan[primary],ipan[x])
-        ct.append([values[0],values[1],values[2],values[3],p,pe])
-        print(pd.crosstab(ipan[primary],ipan[x]))
-        print('P-value: %s'%p+'\n')
-        print('R-value: %s'%pe+'\n')
-
-        del o,p #free memory
-    return ct
-#look at one gene
-def crosstab_table(ip,index,primary):
-    """ This function is used to take in pre-computed subcategorized data and calculate the chi-square contingency table 
-    of a single gene or probe with a set of pre chosen genes
-    
-    :param ip: Input subcategorized data with 1 or 2s
-    :param index: Pre chosen genes or probes to look at association with the primary
-    :param primary: The probe or gene used to calculate chi-square contingency table with all other genes
-    
-    """
-    
-    ipa = ip.copy().T
-
-    
-    #determine groups 
-    d = {}
-    for z in ipa[primary].unique():
-        for y in np.sort(ipa[index].unique()):
-            d['n%s%s'%(z,y)]= ipa[(ipa[primary] == z) & (ipa[index] == y)].index
-
-    values, keys = list(d.values()),list(d.keys())
-    print(pd.crosstab(ipa[primary],ipa[index]))
-    print('n11: %s'%list(values[0]) + '\n'+
-         'n12: %s'%list(values[1])+ '\n'+
-         'n21: %s'%list(values[2])+ '\n'+
-        'n22: %s'%list(values[3])+ '\n')
+        print(pd.crosstab(ipa[primary],ipa[index]))
+        print('n11: %s'%list(values[0]) + '\n'+
+             'n12: %s'%list(values[1])+ '\n'+
+             'n21: %s'%list(values[2])+ '\n'+
+            'n22: %s'%list(values[3])+ '\n')
 
