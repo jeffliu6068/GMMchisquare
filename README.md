@@ -20,11 +20,11 @@ Create a new script that can be edited by going to your desired folder --> new -
 
 Download this package by:
 ```
-!pip install git+https://github.com/jeffliu6068/GMMchisquare.git
+pip install git+https://github.com/jeffliu6068/GMMchisquare.git
 ```
 or 
 ```
-!pip install GMMchisquare
+pip install GMMchisquare
 ```
 
 ### Import
