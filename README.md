@@ -32,7 +32,7 @@ or
 Once installed, import the package by: 
 
 ```
-import GMMchisquare as GMM
+import GMMchisquare.GMMchisquare as GMM
 ```
 
 # Available Tools in the GMMchisquare Package
