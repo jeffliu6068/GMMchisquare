@@ -208,6 +208,11 @@ GMM.crosstab_table(orgi,index=filtdata.index,primary='MUC2')
 Input the data in a *.csv* into python with the following:
 
 ```
+import numpy as np
+import pandas as np
+import matplotlib.pyplot as plt
+import GMMchisquare.GMMchisquare as GMM
+
 input_data = pd.read_csv(
     r'C:\Users\xxx\xxx.csv',
     index_col=[1],
