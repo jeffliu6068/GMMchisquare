@@ -8,7 +8,7 @@ setup(
   author = 'Ta-Chun (Jeff) Liu',                   # Type in your name
   author_email = 'ta-chun.liu@oncology.ox.ac.uk',      # Type in your E-Mail
   url = 'https://github.com/jeffliu6068/GMMchisquare',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/jeffliu6068/GMMchisquare/archive/v_001.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/jeffliu6068/GMMchisquare/archive/v_02.tar.gz',    # I explain this later on
   keywords = ['GMM', 'Chi-square', 'Categorization'],   # Keywords that define your package best
   install_requires=[            
           'pandas',
