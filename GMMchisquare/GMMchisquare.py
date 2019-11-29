@@ -295,11 +295,11 @@ class GMMchisquare():
                 lenn = 0
                 while lenn < golddof: #Loop until you have the ssame dof or unimprovable
 
-                    observed, bin_edges,con = dynamic_binning(observed, bin_edges,final=False)
+                    observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges,final=False)
 
                     observed, what = np.histogram(data, bins=bin_edges)
 
-                    observed, bin_edges, con = dynamic_binning(observed, bin_edges)
+                    observed, bin_edges, con = GMMchisquare.dynamic_binning(observed, bin_edges)
 
                     observed, what = np.histogram(data, bins=bin_edges)
 
@@ -402,11 +402,11 @@ class GMMchisquare():
                                         lenn = 0
                                         while lenn < golddof:
 
-                                            observed, bin_edges,con = dynamic_binning(observed, bin_edges,final=False)
+                                            observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges,final=False)
 
                                             observed, what = np.histogram(datamut, bins=bin_edges)
 
-                                            observed, bin_edges,con = dynamic_binning(observed, bin_edges)
+                                            observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges)
 
                                             observed, what = np.histogram(datamut, bins=bin_edges)
 
@@ -666,11 +666,11 @@ class GMMchisquare():
                                 golddof = len(observed)
                                 lenn=0
                                 while lenn < golddof:
-                                    observed, bin_edges,con = dynamic_binning(observed, bin_edges,final=False)
+                                    observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges,final=False)
 
                                     observed, what = np.histogram(datamut, bins=bin_edges)
 
-                                    observed, bin_edges,con = dynamic_binning(observed, bin_edges)
+                                    observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges)
 
                                     observed, what = np.histogram(datamut, bins=bin_edges)
 
@@ -742,11 +742,11 @@ class GMMchisquare():
                                 golddof = len(observed2)
                                 lenn=0
                                 while len(observed2) < golddof:
-                                    observed2, bin_edges2,con = dynamic_binning(observed2, bin_edges2,final=False)
+                                    observed2, bin_edges2,con = GMMchisquare.dynamic_binning(observed2, bin_edges2,final=False)
 
                                     observed2, what = np.histogram(datamut2, bins=bin_edges2)
 
-                                    observed2, bin_edges2,con = dynamic_binning(observed2, bin_edges2)
+                                    observed2, bin_edges2,con = GMMchisquare.dynamic_binning(observed2, bin_edges2)
 
                                     observed2, what = np.histogram(datamut2, bins=bin_edges2)
 
@@ -1000,11 +1000,11 @@ class GMMchisquare():
                 lenn = 0
                 while lenn < golddof: #Loop until you have the ssame dof or unimprovable
 
-                    observed, bin_edges,con = dynamic_binning(observed, bin_edges,final=False)
+                    observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges,final=False)
 
                     observed, what = np.histogram(datanorm, bins=bin_edges)
 
-                    observed, bin_edges, con = dynamic_binning(observed, bin_edges)
+                    observed, bin_edges, con = GMMchisquare.dynamic_binning(observed, bin_edges)
 
                     observed, what = np.histogram(datanorm, bins=bin_edges)
 
@@ -1105,11 +1105,11 @@ class GMMchisquare():
                                         lenn = 0
                                         while lenn < golddof:
 
-                                            observed, bin_edges,con = dynamic_binning(observed, bin_edges,final=False)
+                                            observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges,final=False)
 
                                             observed, what = np.histogram(datamut, bins=bin_edges)
 
-                                            observed, bin_edges,con = dynamic_binning(observed, bin_edges)
+                                            observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges)
 
                                             observed, what = np.histogram(datamut, bins=bin_edges)
 
@@ -1362,11 +1362,11 @@ class GMMchisquare():
                                 golddof = len(observed)
                                 lenn=0
                                 while lenn < golddof:
-                                    observed, bin_edges,con = dynamic_binning(observed, bin_edges,final=False)
+                                    observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges,final=False)
 
                                     observed, what = np.histogram(datamut, bins=bin_edges)
 
-                                    observed, bin_edges,con = dynamic_binning(observed, bin_edges)
+                                    observed, bin_edges,con = GMMchisquare.dynamic_binning(observed, bin_edges)
 
                                     observed, what = np.histogram(datamut, bins=bin_edges)
 
@@ -1437,11 +1437,11 @@ class GMMchisquare():
                                 golddof = len(observed2)
                                 lenn=0
                                 while len(observed2) < golddof:
-                                    observed2, bin_edges2,con = dynamic_binning(observed2, bin_edges2,final=False)
+                                    observed2, bin_edges2,con = GMMchisquare.dynamic_binning(observed2, bin_edges2,final=False)
 
                                     observed2, what = np.histogram(datamut2, bins=bin_edges2)
 
-                                    observed2, bin_edges2,con = dynamic_binning(observed2, bin_edges2)
+                                    observed2, bin_edges2,con = GMMchisquare.dynamic_binning(observed2, bin_edges2)
 
                                     observed2, what = np.histogram(datamut2, bins=bin_edges2)
 
