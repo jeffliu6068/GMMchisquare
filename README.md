@@ -211,7 +211,7 @@ Input the data in a *.csv* into python with the following:
 import numpy as np
 import pandas as np
 import matplotlib.pyplot as plt
-import GMMchisquare.GMMchisquare as GMM
+from GMMchisquare import GMMchisquare as GMM
 
 input_data = pd.read_csv(
     r'C:\Users\xxx\xxx.csv',
