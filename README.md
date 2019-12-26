@@ -205,6 +205,7 @@ GMM.crosstab_table(orgi,index=filtdata.index,primary='MUC2')
 | Gene 2 | 1022 | 333 |
 | Gene 3 | 2003 | 12 |
 
+Create a new script by clicking python3 on the drop-down menu on the top right of the shell.
 Input the data in a *.csv* into python with the following:
 
 ```
@@ -212,33 +213,43 @@ import numpy as np
 import pandas as np
 import matplotlib.pyplot as plt
 from GMMchisquare import GMMchisquare as GMM
+import time
+from tqdm import tqdm_notebook as tqdm
 
 input_data = pd.read_csv(
     r'C:\Users\xxx\xxx.csv',
-    index_col=[1],
+    index_col=[0], 
     header=0,
     na_values='---')
 
 ```
 
+Insert your path name of your file in the C:\Users\xxx\xxx.csv. The path name of your file can be found by:
+
+Windows: copy the file path on the top bar of the file explorer
+MacOS: control + click your file, press on option to reveal copy xxx path name
+
 ### Measure the Background Threshold
 
-We would want to understand whether there is a subpopulation of signals that is under the background (noise) threshold
+You can skip this step if the a-priori suggest that there isn't a background population in your method. 
+If a background population is assumed, we would want to understand whether there is a subpopulation of signals that is under the background (noise) threshold
 
 ```
 means, std, filt = GMM.GMM_modelingt('Microarray Expression Data' ,input_data,log2transform=True,
                       ,calc_back=True, calc_backpara= False)
 ```
 
-Now we have our mean and standard deviation of the background distribution, and the threshold seperating the two
+Now we have our mean and standard deviation of the background distribution, and the threshold seperating the two populations
 
 ### Remove Genes Below Background Threshold
+
+If you haven't done the step above, ignore this step. 
 
 ```
 input_dataf = GMM.probe_filter(input_data,log2transform=True,filt=6.5924)
 ```
 
-Remember if we are log2-transforming our data here, we have to use a log2-transformed background threshold value 
+Remember if we are log2-transforming our data here, we have to use a log2-transformed background threshold value for filt (filter threshold)
 
 ### Subcategorize Each Gene with *GMM.GMM_modelingt*
 
@@ -255,7 +266,8 @@ for gene in tqdm(gene_name):
     time.sleep(0.01)
 ```
 
-This will run through every gene and categorize them using the GMMchisquare protocol
+This will run through every gene and categorize them using the GMMchisquare protocol. 
+If there is a specific gene or probe you're interested in looking at, for example CDH1, you can change the gene_name = ['CDH1'] to look at the gene of interest or if there are multiple genes interested, for example CDH1, CDH12, CDX1, you can change the gene_name = ['CDH1', 'CDH12', 'CDX1']. 
 
 ### Saving The Output Data
 
@@ -275,7 +287,11 @@ orgi.index = input_dataf.index
 orgi.to_csv(r'C:/Users/xxxx/Documents/xxxx.csv')
 ```
 
+Change C:/Users/xxxx/Documents/xxxx.csv to the file path you want to save your file to. 
+
 ### Analyze Categorized Data Using 2x2 Contingency Table
+
+With all of your samples categorized, you can now run through to compare with the gene you're interested, for example MUC2. 
 
 ```
 #Let's run through and filter out genes that is signficantly correlated with MUC2, a mucin marker
@@ -290,7 +306,7 @@ ct.to_csv(r"C:\Users\xxxx\Documents\xxxxx.csv")
 
 ## Authors
 
-* **Ta-Chun (Jeff) Liu** - *Initial work* - [jeffliu6068](https://github.com/jeffliu6068)
+* **Ta-Chun (Jeff) Liu** - [jeffliu6068](https://github.com/jeffliu6068)
 * **Peter Kalugin** - *Initial work*
 * **Sir Walter Fred Bodmer FRS FRSE** *Initial work*
 
