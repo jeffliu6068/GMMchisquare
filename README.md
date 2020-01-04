@@ -197,6 +197,8 @@ GMM.crosstab_table(orgi,index=filtdata.index,primary='MUC2')
 
 # Working Example
 
+Open python by referring to the Get Started section of this document
+
 ### Input data
 
 | | Sample 1 | Sample 2 |
