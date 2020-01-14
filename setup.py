@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'GMMchisquare',         # How you named your package folder (MyLib)
   packages = ['GMMchisquare'],   # Chose the same as "name"
-  version = '0.21',      # Start with a small number and increase it with every change you make
+  version = '0.22',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'GMM with chi-square protocol',   # Give a short description about your library
   author = 'Ta-Chun (Jeff) Liu',                   # Type in your name
