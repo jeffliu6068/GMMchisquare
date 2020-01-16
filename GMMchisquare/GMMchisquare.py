@@ -348,7 +348,7 @@ class GMMchisquare():
         #     -----------------------------IF CHI-SQUARE VALUE > DOF WITH A SINGLE TAIL, RUN CHI-SQUARE METHOD-------
             if Single_tail_validation == True:
                 if cc > dof and n_comp == 2 and len(group_div) < 2:
-                    if max(weights)/min(weights) > 3: #IS THERE A TAIL????
+                    if (max(weights)/min(weights) > 3) & (max(covars)/min(covars) > 3): #IS THERE A TAIL????
                         if verbosity == True:
                             print('Single tail problem that may not be normally distributed, run chi-square method')
                         tail1 = [num for num in data if num <= group_div]
@@ -1053,7 +1053,7 @@ class GMMchisquare():
         #     -----------------------------IF CHI-SQUARE VALUE > DOF WITH A SINGLE TAIL, RUN CHI-SQUARE METHOD-------
             if Single_tail_validation == True:
                 if cc > dof and n_comp == 2 and len(group_div) < 2:
-                    if max(weights)/min(weights) > 3: #IS THERE A TAIL????
+                    if (max(weights)/min(weights) > 3) & (max(covars)/min(covars) > 3): #IS THERE A TAIL????
                         if verbosity == True:
                             print('Single tail problem that may not be normally distributed, run chi-square method')
                         tail1 = [num for num in datanorm if num <= group_div]
