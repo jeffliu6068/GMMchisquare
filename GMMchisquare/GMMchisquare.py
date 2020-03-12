@@ -2280,7 +2280,7 @@ class GMMchisquare():
 
 
                 #deem the output unimodal or bimodal whether chi-square method was applied
-                intersections = 2**group_div
+                intersections = group_div
 
                 if count == 0:
                     if n_comp > 1:
