@@ -16,9 +16,6 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 import itertools as itert
 from numpy import *
-
-%matplotlib inline
-
 def dynamic_binning(observed,binedges,threshold=5,filt=0,final=True):
     continued = 1
     x=0 #dynamically update range
@@ -161,7 +158,6 @@ mpl.rcParams['figure.dpi'] = 300
 import warnings
 warnings.filterwarnings("ignore")
 
-%matplotlib inline
 
 def GMM_pipeline(data, log2transform,  filt, meanf, stdf, verbosity=False,farinto=0.1, dynamic_binning_s=True, Single_tail_validation = True, tune_factor=0.99,
                  chisquaremethod = True, unimodal_categories=True):
