@@ -1,2 +1,2 @@
 
-from GMMchisquare.GMMchisquare import GMMchisquare
+from GMMchisquare import GMMchisquare
