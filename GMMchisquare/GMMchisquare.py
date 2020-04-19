@@ -160,6 +160,7 @@ mpl.rcParams['figure.dpi'] = 300
 import warnings
 warnings.filterwarnings("ignore")
 
+
 def GMM_pipeline(data, log2transform,  filt, meanf, stdf, verbosity=False,farinto=0.1, dynamic_binning_s=True, Single_tail_validation = True, tune_factor=0.99,
                  chisquaremethod = True, unimodal_categories=True):
 
@@ -947,7 +948,7 @@ def GMM_pipeline(data, log2transform,  filt, meanf, stdf, verbosity=False,farint
 
 
 
-def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_comp, xs, expected, expectedt, expectedboth, ID, log2transform, nums, meanf, 
+def GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, graphs, graph_show, n_comp, xs, expected, expectedt, expectedboth, ID, log2transform, nums, meanf, 
              stdf, group_div, count, condition, n_components, BIC, calc_back, input_datanormcat,
             chis, means, covars, bimodalc, remove, datas, biclemon, realbic, filt, cell_lines, cclemon, dof,
             rem, cell_line_groupname, output_bins):
@@ -1114,12 +1115,14 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
             if count == 0:
                 if n_comp > 1:
                     for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                    print('Bimodal, Cutoff Threshold:', group_div)
+                    if verbosity == True:
+                        print('Bimodal, Cutoff Threshold:', group_div)
                     xf = group_div[0]
                     classif = 'bimodal'
                 else:
                     pass
-                    print('Unimodal')
+                    if verbosity == True:
+                        print('Unimodal')
                     xf = None
                     if categories != None:
                         classif = 'categorical unimodal'
@@ -1127,31 +1130,36 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
                         classif = 'unimodal'
             elif condition == 1: #remove 1 point means removeing 0 index need to zero index
                 ax1.axvline(2**datas[remove][0], linestyle='--', c='g')
-                print('Removed %s datapoints from the left tail, Two Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,datas[remove][0]))
+                if verbosity == True:
+                    print('Removed %s datapoints from the left tail, Two Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,datas[remove][0]))
                 xf = datas[remove][0]
                 classif = 'unimodal with a tail'
             elif condition == 2:
                 ax1.axvline(2**datas[remove][0], linestyle='--', c='g')
                 for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                print('Removed %s datapoints from the left tail, Three Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,np.sort(np.concatenate([group_div,datas[remove]]))))
+                if verbosity == True:
+                    print('Removed %s datapoints from the left tail, Three Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,np.sort(np.concatenate([group_div,datas[remove]]))))
                 xf = np.sort(np.concatenate([group_div,datas[remove]]))
                 classif = 'bimodal with a tail'
             elif condition == 3:
                 remd = remove+1 #not zero indexed coming from the other side
                 ax1.axvline(2**datas[-remd][0], linestyle='--', c='g')
-                print('Removed %s datapoints from the right tail, Two Categories by Chi-square Method, Cutoff Threshold: %s'% (remove,datas[-remove][0]))
+                if verbosity == True:
+                    print('Removed %s datapoints from the right tail, Two Categories by Chi-square Method, Cutoff Threshold: %s'% (remove,datas[-remove][0]))
                 xf = datas[-remove][0]
                 classif = 'unimodal with a tail'
             elif condition == 4:
                 remd = remove+1 
                 ax1.axvline(2**datas[-remd][0], linestyle='--', c='g')
                 for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                print('Removed %s datapoints from the right tail, Three Categories by Chi-square Method, Cutoff Threshold: %s'%(remove,np.sort(np.concatenate([group_div,datas[-remove]]))))
+                if verbosity == True:
+                    print('Removed %s datapoints from the right tail, Three Categories by Chi-square Method, Cutoff Threshold: %s'%(remove,np.sort(np.concatenate([group_div,datas[-remove]]))))
                 xf = np.sort(np.concatenate([group_div,datas[-remove]]))
                 classif = 'bimodal with a tail'
             elif condition == 5:
                 for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                print('Bimodal cannot be helped by Chi-square Method, Cutoff Threshold:', group_div)
+                if verbosity == True:
+                    print('Bimodal cannot be helped by Chi-square Method, Cutoff Threshold:', group_div)
                 xf = group_div[0]
                 classif = 'poorly fitted bimodal'
 
@@ -1162,12 +1170,14 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
             if count == 0:
                 if n_comp > 1:
                     for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                    print('Bimodal, Cutoff Threshold:', group_div)
+                    if verbosity == True:
+                        print('Bimodal, Cutoff Threshold:', group_div)
                     xf = group_div[0]
                     classif = 'bimodal'
                 else:
                     pass
-                    print('Unimodal')
+                    if verbosity == True:
+                        print('Unimodal')
                     xf = None
                     if categories != None:
                         classif = 'categorical unimodal'
@@ -1175,31 +1185,36 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
                         classif = 'unimodal'
             elif condition == 1: #remove 1 point means removeing 0 index need to zero index
                 ax1.axvline(datas[remove][0], linestyle='--', c='g')
-                print('Removed %s datapoints from the left tail, Two Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,datas[remove][0]))
+                if verbosity == True:
+                    print('Removed %s datapoints from the left tail, Two Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,datas[remove][0]))
                 xf = datas[remove][0]
                 classif = 'unimodal with a tail'
             elif condition == 2:
                 ax1.axvline(datas[remove][0], linestyle='--', c='g')
                 for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                print('Removed %s datapoints from the left tail, Three Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,np.sort(np.concatenate([group_div,datas[remove]]))))
+                if verbosity == True:
+                    print('Removed %s datapoints from the left tail, Three Categories by Chi-square Method, Cutoff Threshold: %s' %(remove,np.sort(np.concatenate([group_div,datas[remove]]))))
                 xf = np.sort(np.concatenate([group_div,datas[remove]]))
                 classif = 'bimodal with a tail'
             elif condition == 3:
                 remd = remove+1 #not zero indexed coming from the other side
                 ax1.axvline(datas[-remd][0], linestyle='--', c='g')
-                print('Removed %s datapoints from the right tail, Two Categories by Chi-square Method, Cutoff Threshold: %s'% (remove,datas[-remove][0]))
+                if verbosity == True:
+                    print('Removed %s datapoints from the right tail, Two Categories by Chi-square Method, Cutoff Threshold: %s'% (remove,datas[-remove][0]))
                 xf = datas[-remove][0]
                 classif = 'unimodal with a tail'
             elif condition == 4:
                 remd = remove+1 
                 ax1.axvline(datas[-remd][0], linestyle='--', c='g')
                 for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                print('Removed %s datapoints from the right tail, Three Categories by Chi-square Method, Cutoff Threshold: %s'%(remove,np.sort(np.concatenate([group_div,datas[-remove]]))))
+                if verbosity == True:
+                    print('Removed %s datapoints from the right tail, Three Categories by Chi-square Method, Cutoff Threshold: %s'%(remove,np.sort(np.concatenate([group_div,datas[-remove]]))))
                 xf = np.sort(np.concatenate([group_div,datas[-remove]]))
                 classif = 'bimodal with a tail'
             elif condition == 5:
                 for a in intersections: ax1.axvline(a, linestyle='--', c='g')
-                print('Bimodal cannot be helped by Chi-square Method, Cutoff Threshold:', group_div)
+                if verbosity == True:
+                    print('Bimodal cannot be helped by Chi-square Method, Cutoff Threshold:', group_div)
                 xf = group_div[0]
                 classif = 'poorly fitted bimodal'
 
@@ -1301,9 +1316,10 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
 
 
                 tol = len(categories)
-                print(' No. in Low Expression Group: %s (%s%%)' %(low_exp_group,np.round((low_exp_group/tol)*100,2)),'\n', 
-                      'No. in High Expression Group: %s (%s%%)' %(high_exp_group, np.round((high_exp_group/tol)*100,2)),'\n',
-                      'Number of Total:', tol)
+                if verbosity == True:
+                    print(' No. in Low Expression Group: %s (%s%%)' %(low_exp_group,np.round((low_exp_group/tol)*100,2)),'\n', 
+                          'No. in High Expression Group: %s (%s%%)' %(high_exp_group, np.round((high_exp_group/tol)*100,2)),'\n',
+                          'Number of Total:', tol)
 
                 y = np.round([low_exp_group,high_exp_group],2)
                 y_p = np.round([low_exp_group*100/tol, high_exp_group*100/tol],2)
@@ -1331,9 +1347,10 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
 
 
             tol = len(low_exp_group) +len(high_exp_group)
-            print(' No. in Low Expression Group: %s (%s%%)' %(len(low_exp_group),np.round((len(low_exp_group)/tol)*100,2)),'\n', 
-                  'No. in High Expression Group: %s (%s%%)' %(len(high_exp_group), np.round((len(high_exp_group)/tol)*100,2)),'\n',
-                  'Number of Total:', tol)
+            if verbosity == True:
+                print(' No. in Low Expression Group: %s (%s%%)' %(len(low_exp_group),np.round((len(low_exp_group)/tol)*100,2)),'\n', 
+                      'No. in High Expression Group: %s (%s%%)' %(len(high_exp_group), np.round((len(high_exp_group)/tol)*100,2)),'\n',
+                      'Number of Total:', tol)
 
             y = np.round([len(low_exp_group),len(high_exp_group)],2)
             y_p = np.round([len(low_exp_group)*100/tol,len(high_exp_group)*100/tol],2)
@@ -1388,10 +1405,11 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
                 high_exp_group = data[data >= cutoff[1]]
 
             tol = len(low_exp_group) +len(high_exp_group)+len(med_exp_group)
-            print(' No. in Low Expression Group: %s (%s%%)' %(len(low_exp_group),np.round((len(low_exp_group)/tol)*100,2)),'\n',
-                  'No. in Med Expression Group: %s (%s%%)' %(len(med_exp_group),np.round((len(med_exp_group)/tol)*100,2)),'\n',
-                  'No. in High Expression Group: %s (%s%%)' %(len(high_exp_group), np.round((len(high_exp_group)/tol)*100,2)),'\n',
-                  'Number of Total:', tol)
+            if verbosity == True:
+                print(' No. in Low Expression Group: %s (%s%%)' %(len(low_exp_group),np.round((len(low_exp_group)/tol)*100,2)),'\n',
+                      'No. in Med Expression Group: %s (%s%%)' %(len(med_exp_group),np.round((len(med_exp_group)/tol)*100,2)),'\n',
+                      'No. in High Expression Group: %s (%s%%)' %(len(high_exp_group), np.round((len(high_exp_group)/tol)*100,2)),'\n',
+                      'Number of Total:', tol)
 
             y = np.round([len(low_exp_group),len(med_exp_group),len(high_exp_group)],2)
             y_p = np.round([len(low_exp_group)*100/tol,len(med_exp_group)*100/tol,len(high_exp_group)*100/tol],2)
@@ -1548,7 +1566,11 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
                 ax4.set_ylabel('Chi-square value', fontsize=axisfont)
         else:
             ax4.text(0.35,0.5,'Nothing to see here', fontsize=titlefont)
-        plt.show()
+        
+        if graph_show == True:
+            plt.show()
+        else:
+            plt.close()
     
     elif graphs == False:
         twostd = meanf+2*stdf
@@ -1685,10 +1707,10 @@ def output_bins_func(data, bins):
 
 
 def GMM_modelingt(ID,input_datanormal,log2transform = True, dynamic_binning_s=True, tune_factor=0.99,filt= None, verbosity = False, graphs = True, 
-                  farinto = 0.1,meanf = 0, calc_back = False, stdf = 0, chisquaremethod = True, unimodal_categories= True,
+                  graph_show = True, farinto = 0.1,meanf = 0, calc_back = False, stdf = 0, chisquaremethod = True, unimodal_categories= True,
                   Single_tail_validation = True, cell_lines=[], cell_line_groupname =[], output_bins=False):
 
-    dynamic_binning_s, tune_factor,filt, verbosity, graphs, farinto,meanf, calc_back,  stdf, unimodal_categories, chisquaremethod, Single_tail_validation, output_bins =  dynamic_binning_s, tune_factor,filt, verbosity, graphs, farinto,meanf, calc_back, stdf, unimodal_categories, chisquaremethod, Single_tail_validation, output_bins
+    dynamic_binning_s, tune_factor,filt, verbosity, graphs, graph_show, farinto,meanf, calc_back,  stdf, unimodal_categories, chisquaremethod, Single_tail_validation, output_bins =  dynamic_binning_s, tune_factor,filt, verbosity, graphs, graph_show, farinto,meanf, calc_back, stdf, unimodal_categories, chisquaremethod, Single_tail_validation, output_bins
     
     if calc_back == True:
         idf = input_datanormal.values.flatten()
@@ -1727,13 +1749,13 @@ def GMM_modelingt(ID,input_datanormal,log2transform = True, dynamic_binning_s=Tr
 
     #run GMM plot fucntion
     if log2transform == True:
-        [means, covars, xf], classif, categories, chi, bins_cell, f = GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_comp, xs, expected, expectedt, expectedboth, 
+        [means, covars, xf], classif, categories, chi, bins_cell, f = GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, graphs, graph_show, n_comp, xs, expected, expectedt, expectedboth, 
                                                                  ID, log2transform, nums, meanf, stdf, group_div, count, condition,
                                                                 n_components, BIC, calc_back, input_datanormcat, chis, means,
                                                                 covars, bimodalc, remove, datas, biclemon, realbic, filt, cell_lines, cclemon,
                                                                 dof, rem, cell_line_groupname, output_bins)
     elif log2transform == False:
-        [means, covars, xf], classif, categories, chi, bins_cell, f = GMM_plot(input_datanorm, datanorm, datanorm,input_datanorm, categories, graphs, n_comp, xs, expected, expectedt, expectedboth, 
+        [means, covars, xf], classif, categories, chi, bins_cell, f = GMM_plot(input_datanorm, datanorm, datanorm,input_datanorm, categories, verbosity, graphs, graph_show, n_comp, xs, expected, expectedt, expectedboth, 
                                                                  ID, log2transform, nums, meanf, stdf, group_div, count, condition,
                                                                 n_components, BIC, calc_back, input_datanormcat, chis, means,
                                                                 covars, bimodalc, remove, datas, biclemon, realbic, filt, cell_lines, cclemon,
