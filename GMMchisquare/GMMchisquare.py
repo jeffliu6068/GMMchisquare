@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 import itertools as itert
 from numpy import *
+import matplotlib
 
 
 def dynamic_binning(observed,binedges,threshold=5,filt=0,final=True):
@@ -300,14 +301,8 @@ def GMM_pipeline(data, log2transform,  filt, meanf, stdf, verbosity=False,farint
             print('Unimodal distribution with distinct categories')
         
         
-        if log2transform == False:
-            if meanf < 13:
-                twostd = 2**(meanf+2*stdf)
-                filt = 2**filt
-            else:
-                twostd = meanf+2*stdf
-        elif log2transform == True:
-            twostd = meanf+2*stdf    
+
+        twostd = meanf+2*stdf    
 
         try:
             negpos_ratio = sum(data<filt)/len(data)
@@ -1020,11 +1015,7 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, 
             ax1.grid('on')
 
             if filt != None:
-                if meanf < 13:
-                    twostd = 2**(meanf+2*stdf)
-                    filt = 2**filt
-                else:
-                    twostd = meanf+2*stdf
+                twostd = meanf+2*stdf
             else:
                 filt = -10000000000
                 twostd = -10000000000 #make it the smallest data so that it doesn't interefere with graphing
@@ -1032,6 +1023,7 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, 
                 
         #color in background threshold
         if calc_back == False and filt != None:
+
             #color potential background, x < threshold
             if sum(datanorm < twostd) >1 :
                 ind = [i for i, y in enumerate(bins) if y <= twostd]
@@ -1570,7 +1562,7 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, 
         if graph_show == True:
             plt.show()
         else:
-            plt.close()
+            matplotlib.use('Agg')
     
     elif graphs == False:
         twostd = meanf+2*stdf
