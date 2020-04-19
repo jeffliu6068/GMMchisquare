@@ -16,6 +16,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 import itertools as itert
 from numpy import *
+
+%matplotlib inline
+
 def dynamic_binning(observed,binedges,threshold=5,filt=0,final=True):
     continued = 1
     x=0 #dynamically update range
@@ -158,6 +161,7 @@ mpl.rcParams['figure.dpi'] = 300
 import warnings
 warnings.filterwarnings("ignore")
 
+%matplotlib inline
 
 def GMM_pipeline(data, log2transform,  filt, meanf, stdf, verbosity=False,farinto=0.1, dynamic_binning_s=True, Single_tail_validation = True, tune_factor=0.99,
                  chisquaremethod = True, unimodal_categories=True):
@@ -952,7 +956,8 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
             rem, cell_line_groupname, output_bins):
    # -------------------------------------------PLOTTTTTTTTTTTTTTTTT------------------------------------------
     x_axis = np.sort(np.array([b for a in datanorm[np.nonzero(datanorm)].reshape(-1,1) for b in a])) #reset x_axis for plotting
-
+    #initialize f
+    f=0
     if graphs == True:
         f, ((ax1,ax2),(ax3,ax4)) = plt.subplots(2,2,figsize=[18,14.5])
 
@@ -1649,9 +1654,9 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_c
 
     else:
         if chis == []:
-            return [means, covars, xf], classif, categories, bimodalc, bins_cell
+            return [means, covars, xf], classif, categories, bimodalc, bins_cell, f
         else:
-            return [means, covars, xf], classif, categories, chis[-1], bins_cell
+            return [means, covars, xf], classif, categories, chis[-1], bins_cell, f
     
 
 ##############################################################################################################################
@@ -1725,19 +1730,19 @@ def GMM_modelingt(ID,input_datanormal,log2transform = True, dynamic_binning_s=Tr
 
     #run GMM plot fucntion
     if log2transform == True:
-        [means, covars, xf], classif, categories, chi, bins_cell = GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_comp, xs, expected, expectedt, expectedboth, 
+        [means, covars, xf], classif, categories, chi, bins_cell, f = GMM_plot(input_data, data, datanorm, input_datanorm, categories, graphs, n_comp, xs, expected, expectedt, expectedboth, 
                                                                  ID, log2transform, nums, meanf, stdf, group_div, count, condition,
                                                                 n_components, BIC, calc_back, input_datanormcat, chis, means,
                                                                 covars, bimodalc, remove, datas, biclemon, realbic, filt, cell_lines, cclemon,
                                                                 dof, rem, cell_line_groupname, output_bins)
     elif log2transform == False:
-        [means, covars, xf], classif, categories, chi, bins_cell = GMM_plot(input_datanorm, datanorm, datanorm,input_datanorm, categories, graphs, n_comp, xs, expected, expectedt, expectedboth, 
+        [means, covars, xf], classif, categories, chi, bins_cell, f = GMM_plot(input_datanorm, datanorm, datanorm,input_datanorm, categories, graphs, n_comp, xs, expected, expectedt, expectedboth, 
                                                                  ID, log2transform, nums, meanf, stdf, group_div, count, condition,
                                                                 n_components, BIC, calc_back, input_datanormcat, chis, means,
                                                                 covars, bimodalc, remove, datas, biclemon, realbic, filt, cell_lines, cclemon,
                                                                 dof, rem, cell_line_groupname, output_bins)
         
-    return [means, covars, xf], classif, categories, chi, bins_cell
+    return [means, covars, xf], classif, categories, chi, bins_cell, f
 
 
 ##############################################################################################################################
