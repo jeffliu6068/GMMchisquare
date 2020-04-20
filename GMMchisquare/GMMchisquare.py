@@ -263,7 +263,7 @@ def GMM_pipeline(data, log2transform,  filt, meanf, stdf, verbosity=False,farint
     dof = len(observed)-1
 
     #calculate the critical value, *2 IS CHOSEN based on a priori and repeated testing
-    critical_value = chi2.ppf(0.99, 11)*2 
+    critical_value = chi2.ppf(0.99999, dof) 
 
     #calculate chi-square
     arrchi= np.array([[x,y] for x,y in zip(observed,expectedchi)])
