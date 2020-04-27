@@ -18,7 +18,6 @@ import itertools as itert
 from numpy import *
 import matplotlib
 
-
 def dynamic_binning(observed,binedges,threshold=5,filt=0,final=True):
     continued = 1
     x=0 #dynamically update range
@@ -263,7 +262,7 @@ def GMM_pipeline(data, log2transform,  filt, meanf, stdf, verbosity=False,farint
     dof = len(observed)-1
 
     #calculate the critical value, *2 IS CHOSEN based on a priori and repeated testing
-    critical_value = chi2.ppf(0.99999, dof) 
+    critical_value = chi2.ppf(0.99999, dof)
 
     #calculate chi-square
     arrchi= np.array([[x,y] for x,y in zip(observed,expectedchi)])
@@ -1045,40 +1044,48 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, 
         #ADD PATCHES AND HATCHES FOR USER INPUT CELL_LINES
         if cell_lines != []:
             cmap = plt.get_cmap('tab20') #color scheme
-            hatch_pattern = ['//', '\\', '+', 'x', '*', 'o', '.', '-','O']
             
             all_highlight = []
             
 
             if all([isinstance(i, list) for i in cell_lines]): #check if list of list or just a list of cell lines
+                #stack the hatches
+                stacked = []
+                stacked_color = []
+                
                 for i,x in enumerate(cell_lines):
-
+                    
+                    
                     use_color = cmap(i/len(cell_lines)) #cycle through color
-                    use_hatch = hatch_pattern[i]
 
                     highlight = input_datanorm[x].loc[ID]
 
                     if cell_line_groupname != []: #add groupname into the patches to show
                         try:
-                            all_highlight.append(mpatches.Patch(hatch=use_hatch, facecolor = use_color,edgecolor='black',
+                            all_highlight.append(mpatches.Patch(hatch='//', facecolor = use_color,edgecolor='black',
                                                         label=cell_line_groupname[i]))                        
                         except:
                             print('cell_line_groupname needs to be the same length as cell_lines')
-                            all_highlight.append(mpatches.Patch(hatch=use_hatch, facecolor = use_color,edgecolor='black',
+                            all_highlight.append(mpatches.Patch(hatch='//', facecolor = use_color,edgecolor='black',
                                                         label='Sample(s) of Interest No.{}'.format(i))) #add to legend
                     else:
-                        all_highlight.append(mpatches.Patch(hatch=use_hatch, facecolor = use_color,edgecolor='black',
+                        all_highlight.append(mpatches.Patch(hatch='//', facecolor = use_color,edgecolor='black',
                                                             label='Sample(s) of Interest No.{}'.format(i))) #add to legend
+                        
+                    stacked.append(np.array(input_datanorm[x].loc[ID].values))
+                    stacked_color.append(use_color)
 
-                    #bin spaces different for log2transformed or not
-                    if log2transform == True:
-                        n2, bins2, patches2 = ax1.hist(input_datanorm[x].loc[ID],hatch=use_hatch,facecolor=use_color,
-                                                       bins = np.logspace(np.log2(np.min(x_axis)),np.log2(np.max(x_axis)),num=nums,base=2),
-                                                       histtype='barstacked',alpha=0.5, ec='black') 
-                    else: 
-                        n2, bins2, patches2 = ax1.hist(input_datanorm[x].loc[ID],hatch=use_hatch,facecolor=use_color,
-                                                       bins = np.linspace(min(x_axis),max(x_axis), num=nums+1),
-                                                       histtype='barstacked',alpha=0.5, ec='black')                         
+                    
+                #bin spaces different for log2transformed or not
+                if log2transform == True:
+                    n2, bins2, patches2 = ax1.hist(stacked,hatch='//',color=stacked_color,
+                                                   bins = np.logspace(np.log2(np.min(x_axis)),np.log2(np.max(x_axis)),num=nums,base=2),
+                                                   stacked = True, alpha=0.7, ec='black') 
+                else: 
+                    n2, bins2, patches2 = ax1.hist(stacked,hatch='//',color=stacked_color,
+                                                   bins = np.linspace(min(x_axis),max(x_axis), num=nums+1), stacked = True,
+                                                   alpha=0.7, ec='black')     
+
                     
             else: #if just a list of cell lines then just hatch everything as if one group
                 highlight = input_datanorm[cell_lines].loc[ID]
@@ -1425,6 +1432,7 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, 
 
                 if filt != None:
                     true_posh = x_highexp.columns[((x_highexp>twostd).loc[ID])]
+                    
                     true_posm = x_medexp.columns[((x_medexp>twostd).loc[ID])]
                     categories = [2 if (x in true_posh) | (x in true_posm) else 1 for x in input_datanormcat]
 
@@ -1646,7 +1654,6 @@ def GMM_plot(input_data, data, datanorm, input_datanorm, categories, verbosity, 
 
                 if filt != None:
                     true_posh = x_highexp.columns[(x_highexp>twostd).loc[ID]]
-
                     true_posm = x_medexp.columns[((x_medexp>twostd).loc[ID])]
                     categories = [3 if x in true_posh else 2 if x in true_posm else 1 for x in input_datanormcat]
                 else:
@@ -1817,7 +1824,7 @@ def find_hits(ip,primary):
         
         #extract frm crosstab
         values = [y for x in pd.crosstab(ipan[primary],ipan[x]).values for y in x]
-        ct.append([values[0],values[1],values[2],values[3],p,pe])
+        ct.append([values[3],values[2],values[1],values[0],p,pe])
         print(pd.crosstab(ipan[primary],ipan[x]))
         print('P-value: %s'%p+'\n')
         print('R-value: %s'%pe+'\n')
